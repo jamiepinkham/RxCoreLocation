@@ -35,16 +35,6 @@ extension Reactive where Base: CLLocationManager {
         }
     }
 
-    /**
-     Reactive wrapper for `delegate` message.
-     */
-    public var didFailWithError: Observable<NSError> {
-        return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didFailWithError:)))
-            .map { a in
-                return try castOrThrow(NSError.self, a[1])
-        }
-    }
-
     #if os(iOS) || os(OSX)
     /**
      Reactive wrapper for `delegate` message.

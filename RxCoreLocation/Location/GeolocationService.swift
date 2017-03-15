@@ -117,14 +117,15 @@ public class GeolocationService: GeolocationServiceProtocol {
 
         return Observable.create { [weak self] (observer) in
 
-            guard CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-                 CLLocationManager.authorizationStatus() == .authorizedAlways,
-                let manager = self?.locationManager else {
+            // this guard is commented out in order to produce the error
+//            guard CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+//                 CLLocationManager.authorizationStatus() == .authorizedAlways,
+             guard let manager = self?.locationManager else {
                 observer.onNext(nil)
                 observer.onCompleted()
                 return Disposables.create()
             }
-
+            
             let location = manager.rx.didUpdateLocations
                 .map { $0.last?.coordinate }
                 .subscribe(observer)

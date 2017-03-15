@@ -11,17 +11,17 @@ import CoreLocation
 import RxCoreLocation
 import RxSwift
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
     let disposeBag = DisposeBag()
+    let locationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch
         
-        GeolocationService.instance.requestAuthorization(always: false).subscribe(onNext: { auth in
-            print(auth)
-        }).addDisposableTo(disposeBag)
+        GeolocationService.instance.currentLocation().subscribe({event in print(event)})
+        
         
         return true
     }
@@ -46,6 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
     }
 
 

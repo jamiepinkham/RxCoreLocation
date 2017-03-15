@@ -25,9 +25,6 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        GeolocationService.instance.updateLocations().subscribe(onNext: { location in
-            print(location)
-        }).disposed(by: disposeBag)
     }
 
 
